@@ -1,71 +1,73 @@
-import React, {useReducer} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux'
+import { decrementValue, incrementValue } from '../redux/actions/valueAction'
+import { ValueType } from '../interfaces/valueTypes'
+import { Store } from '../interfaces/storeTypes';
 
-interface Action {
-  type: string;
-}
+export default function App() {
 
-interface State {
-  count: number;
-}
+  const value: ValueType = useSelector((state: Store) => state.value);
 
-const App = () => {
-  const initialState = {count: 0};
-
-  const reducer = (state: State, action: Action) => {
-    switch (action.type) {
-      case 'SOMA':
-        return {count: state.count + 1};
-      case 'SUBTRACAO':
-        return {count: state.count - 1};
-      default:
-        return state;
-    }
+  const buttonIncrement = () => {
+    dispatch(incrementValue('INCREMENT'));
   };
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const buttonDecrement = () => {
+    dispatch(decrementValue('DECREMENT'));
+    };
 
+  const dispatch = useDispatch();
   return (
-    <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        onPress={() => {
-          dispatch({type: 'SOMA'});
-        }}>
-        <Text style={styles.text}>Clique para incrementar o state do número</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => {
-          dispatch({type: 'SUBTRACAO'});
-        }}>
-        <Text style={styles.text}>Clique para decrementar o state do número</Text>
-      </TouchableOpacity>
-
-
-      <Text style={styles.number}>{state.count}</Text>
+    <SafeAreaView style={{backgroundColor:'#ecf0f1', flexGrow:10}}>
+      <View  style={styles.containerText}>
+        <Text style={styles.number}>{value.value}</Text>
+      </View>
+      <View  style={styles.containerButtons}>
+        <TouchableOpacity onPress={() => {
+            buttonIncrement();
+          }}>
+          <Text style={styles.text}>Incrementar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => { buttonDecrement();}}>
+          <Text style={styles.text}>Decrementar</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flex: 1,
-    backgroundColor: '#273c75',
-    alignItems: 'center',
+  containerText:{
+    alignItems:'center',
     justifyContent: 'center',
+    flexGrow:1,
+  },
+  containerButtons: {
+    flexDirection:'row-reverse',
+    alignItems:'flex-end',
+    justifyContent:'space-evenly',
+    flexGrow:1,
   },
   text: {
-    marginHorizontal: '5%',
-    fontSize: 20,
+    padding: '10%',
+    marginBottom: '20%',
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#f5f6fa',
+    backgroundColor: '#1abc9c',
+    borderRadius: 36,
   },
   number: {
-    textAlign: 'center',
-    fontSize: 100,
-    fontWeight: 'bold',
-    color: '#f5f6fa',
+    top: '50%',
+    position: 'absolute',
+    fontSize: 250,
+    color: '#1abc9c',
   },
 });
-export default App;

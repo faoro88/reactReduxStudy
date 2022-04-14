@@ -1,20 +1,22 @@
-import {ReducersType} from '../../interfaces/reducersTypes';
+import { ValueType } from "../../interfaces/valueTypes";
 
-const valueState: ReducersType = {
-    value: 0,
-  };
 
+const initialState: ValueType = {
+  value:0
+}
 
 export const valueReducer = (
-    state: ReducersType = valueState,
-    action:{type:string, payload: Number},
+  state: ValueType = initialState,
+  action: {type: string},
 ) => {
-    switch (action.type) {
-        case 'counter/incremented':
-          return (valueState.value + 1);
-        case 'DELETE_USER':
-          return valueState;
-        default:
-          return state;
-      }
+  switch (action.type) {
+    case 'INCREMENT':
+      console.log(state.value + 1)
+      return {value: state.value + 1};
+    case 'DECREMENT':
+      console.log(state.value + -1)
+      return {value: state.value - 1};
+    default:
+      return state;
+  }
 };

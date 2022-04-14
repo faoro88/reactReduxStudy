@@ -1,8 +1,7 @@
-export const setValue = (value: number) => ({
-  type: 'counter/incremented',
-  payload: value,
+export const incrementValue = (type: string) => ({
+  type: type
 });
 
-export const deleteUser = () => ({
-  type: 'counter/incremented',
+export const decrementValue = (type: string) => ({
+  type: type
 });
